@@ -11,8 +11,7 @@ function App() {
         <Sidebar />
         <Feed />
       </div>
-      {/* App Body*/}
-      {/* SideBard */}
+
       {/* Footer */}
     </div>
   );

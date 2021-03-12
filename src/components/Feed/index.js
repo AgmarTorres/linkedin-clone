@@ -9,8 +9,11 @@ import React from 'react';
 
 import InputOptions from './../InputOptions/index';
 import './styles.css';
+import Post from './../Post/index';
 
 function Feed() {
+  const [posts, setPosts] = React.useState([]);
+
   return (
     <div className='feed'>
       <div className='feed__inputContainer'>
@@ -32,6 +35,13 @@ function Feed() {
           />
         </div>
       </div>
+      {posts.map((post) => (
+        <Post
+          description={post.description}
+          name={post.name}
+          message={post.message}
+        />
+      ))}
     </div>
   );
 }
