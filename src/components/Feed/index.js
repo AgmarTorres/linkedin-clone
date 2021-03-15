@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   CalendarViewDay,
   Create,
@@ -5,7 +6,6 @@ import {
   Image,
   Subscriptions,
 } from '@material-ui/icons';
-import React from 'react';
 
 import InputOptions from './../InputOptions/index';
 import './styles.css';
@@ -13,6 +13,9 @@ import Post from './../Post/index';
 
 function Feed() {
   const [posts, setPosts] = React.useState([]);
+  const sendPost = (e) => {
+    e.preventDefault();
+  };
 
   return (
     <div className='feed'>
@@ -21,7 +24,9 @@ function Feed() {
           <Create />
           <form>
             <input type='text' />
-            <button type='submit'>Send</button>
+            <button onClick={sendPost} type='submit'>
+              Send
+            </button>
           </form>
         </div>
         <div className='feed__inputOptions'>
