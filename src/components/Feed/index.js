@@ -1,4 +1,6 @@
 import React from 'react';
+import InputOptions from './../InputOptions/index';
+import Post from './../Post/index';
 import {
   CalendarViewDay,
   Create,
@@ -6,16 +8,34 @@ import {
   Image,
   Subscriptions,
 } from '@material-ui/icons';
-
-import InputOptions from './../InputOptions/index';
 import './styles.css';
-import Post from './../Post/index';
+import { db } from '../../firebase';
+import firebase from 'firebase';
 
 function Feed() {
+  const [input, setInput] = React.useState('');
   const [posts, setPosts] = React.useState([]);
   const sendPost = (e) => {
     e.preventDefault();
+    db.collection('posts').add({
+      name: 'Agmar',
+      description: ' This is a test',
+      message: input,
+      photoUrl: '',
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    });
   };
+
+  React.useEffect(() => {
+    db.collection('posts').onSnapshot((snapshot) => {
+      setPosts(
+        snapshot.docs.map((doc) => ({
+          id: doc.id,
+          data: doc.data(),
+        }))
+      );
+    });
+  }, []);
 
   return (
     <div className='feed'>
@@ -23,7 +43,11 @@ function Feed() {
         <div className='feed__input'>
           <Create />
           <form>
-            <input type='text' />
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              type='text'
+            />
             <button onClick={sendPost} type='submit'>
               Send
             </button>
@@ -40,11 +64,12 @@ function Feed() {
           />
         </div>
       </div>
-      {posts.map((post) => (
+      {posts.map(({ id, data: { name, description, message, photoUrl } }) => (
         <Post
-          description={post.description}
-          name={post.name}
-          message={post.message}
+          key={id}
+          description={description}
+          name={name}
+          message={message}
         />
       ))}
     </div>
