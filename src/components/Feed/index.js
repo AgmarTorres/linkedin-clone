@@ -1,6 +1,11 @@
 import React from 'react';
-import InputOptions from './../InputOptions/index';
+import './styles.css';
 import Post from './../Post/index';
+import firebase from 'firebase';
+import InputOptions from './../InputOptions/index';
+import { selectUser } from './../../features/user/userSlice';
+import { db } from '../../firebase';
+import { useSelector } from 'react-redux';
 import {
   CalendarViewDay,
   Create,
@@ -8,20 +13,18 @@ import {
   Image,
   Subscriptions,
 } from '@material-ui/icons';
-import './styles.css';
-import { db } from '../../firebase';
-import firebase from 'firebase';
 
 function Feed() {
+  const user = useSelector(selectUser);
   const [input, setInput] = React.useState('');
   const [posts, setPosts] = React.useState([]);
   const sendPost = (e) => {
     e.preventDefault();
     db.collection('posts').add({
-      name: 'Agmar',
-      description: ' This is a test',
+      name: user.displayName,
+      description: user.email,
       message: input,
-      photoUrl: '',
+      photoUrl: user.photoUrl || '',
       timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     });
   };
@@ -72,6 +75,7 @@ function Feed() {
           description={description}
           name={name}
           message={message}
+          photoUrl={photoUrl}
         />
       ))}
     </div>
