@@ -1,5 +1,5 @@
-import React from 'react';
 import { Avatar } from '@material-ui/core';
+import { forwardRef } from 'react';
 import {
   ChatOutlined,
   SendOutlined,
@@ -9,9 +9,9 @@ import {
 import InputOption from './../InputOptions';
 import './styles.css';
 
-function Post({ name, description, message, photoUrl }) {
+const Post = forwardRef(({ name, description, message, photoUrl }, ref) => {
   return (
-    <div className='post'>
+    <div ref={ref} className='post'>
       <div className='post__header'>
         <Avatar src={photoUrl}>{name[0]}</Avatar>
         <div className='post__info'>
@@ -30,6 +30,6 @@ function Post({ name, description, message, photoUrl }) {
       </div>
     </div>
   );
-}
+});
 
 export default Post;

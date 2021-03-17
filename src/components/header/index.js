@@ -9,12 +9,10 @@ import {
 import React from 'react';
 import HeaderOption from '../HeaderOption';
 import './styles.css';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { logout } from '../../features/user/userSlice';
 import { auth } from '../../firebase';
-import { selectUser } from './../../features/user/userSlice';
 function Header() {
-  const user = useSelector(selectUser);
   const dispatch = useDispatch();
   const logoutApp = () => {
     dispatch(logout());
@@ -39,7 +37,7 @@ function Header() {
         <HeaderOption Icon={BusinessCenter} title='Jobs' />
         <HeaderOption Icon={Chat} title='Messaging' />
         <HeaderOption Icon={Notifications} title='Notifications' />
-        <HeaderOption avatar={user.photoUrl} title='me' onClick={logoutApp} />
+        <HeaderOption title='me' onClick={logoutApp} />
       </div>
     </div>
   );
